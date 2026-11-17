@@ -1,0 +1,1059 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rex Sorvetes | Açaí & Gelateria</title>
+    <link id="dynamic-favicon" rel="icon" type="image/png" href="1000215586.jpg">
+    
+    <!-- Google Fonts: Montserrat, Caveat (Manuscrita) e Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Montserrat:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome para ícones modernos e temáticos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuração personalizada de cores e fontes no Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#FAF7F0',
+                        acai: {
+                            DEFAULT: '#3E1D4B',
+                            dark: '#24193B',
+                            light: '#5B2C6F'
+                        },
+                        dino: {
+                            DEFAULT: '#2E8B57',
+                            light: '#4CA673'
+                        },
+                        mango: {
+                            DEFAULT: '#F59E0B',
+                            dark: '#EA580C'
+                        },
+                        petrol: '#1D5B79'
+                    },
+                    fontFamily: {
+                        heading: ['Montserrat', 'sans-serif'],
+                        handwriting: ['Caveat', 'cursive'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #FAF7F0;
+            color: #24193B;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        @keyframes float-gentle {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        .animate-float-gentle {
+            animation: float-gentle 4s ease-in-out infinite;
+        }
+        .brand-logo-img {
+            filter: drop-shadow(0 8px 18px rgba(36, 25, 59, 0.14));
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-acai selection:text-white pb-28 md:pb-14">
+
+    <!-- Notificação Toast Flutuante -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Cabeçalho / Navegação Minimalista com Identificação da Marca -->
+    <header class="sticky top-0 z-40 bg-cream/95 backdrop-blur-md border-b border-acai/10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+            <!-- Logomarca Oficial no Topo da Página -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-14 h-14 flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105">
+                    <img id="nav-brand-logo"
+                         src="1000215586.jpg"
+                         onerror="this.src='https://placehold.co/200x200/FAF7F0/24193B?text=REX'"
+                         alt="Logomarca Rex Sorvetes"
+                         class="w-full h-full object-contain">
+                </div>
+                <div>
+                    <div class="flex items-center gap-1.5">
+                        <span class="font-heading font-black text-xl sm:text-2xl tracking-tight text-acai-dark">REX</span>
+                        <span class="font-heading font-extrabold text-xl sm:text-2xl tracking-tight text-petrol">SORVETES</span>
+                    </div>
+                    <p class="text-[11px] font-bold uppercase tracking-widest text-acai/75 -mt-1">Açaí & Gelateria</p>
+                </div>
+            </a>
+
+            <!-- Ações Rápidas no Header -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <a href="https://wa.me/5521966632766?text=Ol%C3%A1%20Rex%20Sorvetes!%20Gostaria%20de%20contratar%20ou%20fazer%20um%20pedido." target="_blank" rel="noopener noreferrer"
+                   class="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-dino text-white font-semibold text-sm hover:bg-dino-light transition-all shadow-sm">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>(21) 96663-2766</span>
+                </a>
+
+                <button onclick="toggleCartDrawer()" 
+                        class="relative inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-acai-dark text-white font-semibold text-sm hover:bg-acai transition-all shadow-md cursor-pointer">
+                    <i class="fa-solid fa-bag-shopping text-mango"></i>
+                    <span class="hidden sm:inline">Faça seu Pedido</span>
+                    <span id="header-cart-count" class="bg-mango text-acai-dark font-heading font-extrabold text-xs px-2 py-0.5 rounded-full">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Seção Hero Minimalista com Logomarca em Destaque no Topo -->
+    <section class="pt-6 pb-10 sm:pt-10 sm:pb-14 px-4 sm:px-6">
+        <div class="max-w-6xl mx-auto">
+            <!-- Selo Centralizado da Logomarca Transparente no Topo da Página -->
+            <div class="flex flex-col items-center justify-center text-center mb-8">
+                <div class="w-44 h-44 sm:w-56 sm:h-56 flex items-center justify-center animate-float-gentle">
+                    <img id="hero-brand-logo"
+                         src="1000215586.jpg"
+                         onerror="this.src='https://placehold.co/400x400/FAF7F0/24193B?text=REX+SORVETES'"
+                         alt="Logomarca Oficial Rex Sorvetes - Açaí & Gelateria"
+                         class="w-full h-full object-contain brand-logo-img">
+                </div>
+                <span class="mt-2 inline-flex items-center gap-2 px-4 py-1 rounded-full bg-white border border-acai/10 text-[11px] font-heading font-extrabold uppercase tracking-widest text-acai-dark shadow-2xs">
+                    <i class="fa-solid fa-award text-mango"></i>
+                    <span>Rex Sorvetes • Açaí & Gelateria Artesanal</span>
+                </span>
+            </div>
+
+            <!-- Card Principal de Apresentação e Destaque -->
+            <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-acai/10 relative overflow-hidden">
+                <div class="absolute -right-12 -top-12 w-48 h-48 rounded-full bg-mango/10 pointer-events-none"></div>
+                <div class="absolute -left-12 -bottom-12 w-56 h-56 rounded-full bg-acai/5 pointer-events-none"></div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+                    <!-- Coluna de Texto e Informações -->
+                    <div class="lg:col-span-7 space-y-5">
+                        <!-- Badges de Status e Entrega -->
+                        <div class="flex flex-wrap items-center gap-2.5">
+                            <span id="store-status-badge" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-dino/15 text-dino">
+                                <span id="store-status-dot" class="w-2 h-2 rounded-full bg-dino animate-ping"></span>
+                                <span id="store-status-text">Verificando horário...</span>
+                            </span>
+
+                            <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-mango/15 text-mango-dark">
+                                <i class="fa-solid fa-motorcycle text-sm"></i>
+                                <span>Entrega a Domicílio Rápida</span>
+                            </span>
+                        </div>
+
+                        <h1 class="font-heading font-black text-3xl sm:text-5xl text-acai-dark leading-tight">
+                            O verdadeiro sabor do <span class="text-acai">Açaí</span> & <span class="text-petrol">Gelatos</span> artesanais.
+                        </h1>
+
+                        <p class="text-acai-dark/75 text-base sm:text-lg max-w-xl leading-relaxed">
+                            Cremosidade incomparável, ingredientes selecionados e preços irresistíveis. Escolha seus sabores favoritos e receba geladinho em casa!
+                        </p>
+
+                        <!-- Cartões de Informação: Horário, Endereço e Entrega -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                            <!-- Horário -->
+                            <div class="bg-cream rounded-2xl p-3.5 border border-acai/10 flex items-start gap-3">
+                                <div class="w-9 h-9 rounded-xl bg-acai/10 text-acai flex items-center justify-center shrink-0 mt-0.5">
+                                    <i class="fa-regular fa-clock"></i>
+                                </div>
+                                <div>
+                                    <p class="text-[11px] font-bold uppercase tracking-wider text-acai/60">Atendimento</p>
+                                    <p class="text-xs sm:text-sm font-bold text-acai-dark">Todos os dias</p>
+                                    <p class="text-xs font-semibold text-dino">09:30 às 18:00</p>
+                                </div>
+                            </div>
+
+                            <!-- Endereço com Fonte Manuscrita -->
+                            <div class="bg-cream rounded-2xl p-3.5 border border-acai/10 flex items-start gap-3">
+                                <div class="w-9 h-9 rounded-xl bg-petrol/15 text-petrol flex items-center justify-center shrink-0 mt-0.5">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </div>
+                                <div>
+                                    <p class="text-[11px] font-bold uppercase tracking-wider text-acai/60">Onde Estamos</p>
+                                    <p class="font-handwriting text-2xl font-bold text-acai-dark leading-none mt-0.5">Rua Quinze</p>
+                                    <p class="text-[11px] text-acai/60 mt-0.5">Retirada ou Delivery</p>
+                                </div>
+                            </div>
+
+                            <!-- Delivery -->
+                            <div class="bg-cream rounded-2xl p-3.5 border border-acai/10 flex items-start gap-3">
+                                <div class="w-9 h-9 rounded-xl bg-mango/20 text-mango-dark flex items-center justify-center shrink-0 mt-0.5">
+                                    <i class="fa-solid fa-motorcycle"></i>
+                                </div>
+                                <div>
+                                    <p class="text-[11px] font-bold uppercase tracking-wider text-acai/60">Delivery</p>
+                                    <p class="text-xs sm:text-sm font-bold text-acai-dark">Entrega a Domicílio</p>
+                                    <p class="text-[11px] text-acai/70">Cartão & Pix</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Botões CTA Principais -->
+                        <div class="flex flex-wrap items-center gap-3 pt-2">
+                            <a href="#cardapio" 
+                               class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-acai-dark text-white font-heading font-bold text-sm hover:bg-acai transition-all shadow-md">
+                                <span>Explorar Cardápio</span>
+                                <i class="fa-solid fa-arrow-down text-xs text-mango"></i>
+                            </a>
+                            <a href="https://wa.me/5521966632766?text=Ol%C3%A1%20Rex%20Sorvetes!%20Gostaria%20de%20fazer%20um%20pedido." target="_blank" rel="noopener noreferrer"
+                               class="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-dino text-white font-heading font-bold text-sm hover:bg-dino-light transition-all shadow-md">
+                                <i class="fa-brands fa-whatsapp text-lg"></i>
+                                <span>Contratar pelo WhatsApp</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Coluna Visual Destaque (Foto Ultrarrealista + Casquinha R$ 3,00) -->
+                    <div class="lg:col-span-5">
+                        <div class="relative rounded-3xl overflow-hidden shadow-lg border-4 border-cream group">
+                            <img src="https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=900&q=85" 
+                                 onerror="this.src='https://placehold.co/600x480/3E1D4B/FFFFFF?text=Rex+Sorvetes+Acai'"
+                                 alt="Açaí Cremoso Rex Sorvetes" 
+                                 class="w-full h-72 sm:h-80 object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-acai-dark/90 via-acai-dark/25 to-transparent"></div>
+                            
+                            <!-- Selo de Destaque de Preço -->
+                            <div class="absolute top-4 right-4 bg-mango text-acai-dark px-4 py-2 rounded-2xl shadow-lg transform rotate-2">
+                                <p class="text-[10px] font-heading font-extrabold uppercase tracking-wider">Especial do Dia</p>
+                                <p class="font-heading font-black text-base sm:text-lg leading-none">Casquinha R$ 3,00</p>
+                            </div>
+
+                            <div class="absolute bottom-4 left-4 right-4 text-white flex items-end justify-between gap-2">
+                                <div>
+                                    <span class="text-xs font-bold uppercase tracking-wider text-mango">Mais Pedido</span>
+                                    <h3 class="font-heading font-extrabold text-lg sm:text-xl leading-tight">Casquinha de Açaí Tradicional</h3>
+                                    <p class="text-xs text-white/80">10 sabores variados a partir de R$ 3,00</p>
+                                </div>
+                                <button onclick="addToCart(1)" class="w-11 h-11 rounded-2xl bg-mango text-acai-dark flex items-center justify-center font-bold hover:bg-white transition-colors shadow-md cursor-pointer shrink-0" title="Adicionar Casquinha de Açaí">
+                                    <i class="fa-solid fa-plus text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Principal: Cardápio (10 Sabores) + Painel Fixo "Faça seu Pedido" -->
+    <main id="cardapio" class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Coluna Esquerda: Cardápio dos 10 Sabores -->
+            <div class="lg:col-span-8 space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <span class="text-xs font-heading font-extrabold uppercase tracking-widest text-dino">Menu Completo</span>
+                        <h2 class="font-heading font-black text-2xl sm:text-3xl text-acai-dark">Nossos Sabores</h2>
+                    </div>
+
+                    <!-- Filtros Minimalistas -->
+                    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+                        <button onclick="filterMenu('todos')" data-filter="todos" class="filter-btn active px-4 py-2 rounded-full text-xs font-bold bg-acai-dark text-white transition-all cursor-pointer whitespace-nowrap">
+                            Todos (10)
+                        </button>
+                        <button onclick="filterMenu('acai')" data-filter="acai" class="filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white text-acai-dark border border-acai/15 hover:border-acai transition-all cursor-pointer whitespace-nowrap">
+                            Linha Açaí
+                        </button>
+                        <button onclick="filterMenu('sorvetes')" data-filter="sorvetes" class="filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white text-acai-dark border border-acai/15 hover:border-acai transition-all cursor-pointer whitespace-nowrap">
+                            Sorvetes Variados
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Grid de Cards dos Sabores -->
+                <div id="menu-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <!-- Renderizado via JS -->
+                </div>
+            </div>
+
+            <!-- Coluna Direita: Painel Interativo "Faça seu Pedido" (Desktop) -->
+            <aside id="order-section" class="lg:col-span-4 lg:sticky lg:top-24">
+                <div class="bg-white rounded-3xl p-6 shadow-sm border border-acai/10 space-y-5">
+                    <div class="flex items-center justify-between border-b border-acai/10 pb-4">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-10 h-10 rounded-2xl bg-acai text-white flex items-center justify-center">
+                                <i class="fa-solid fa-basket-shopping"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-heading font-extrabold text-lg text-acai-dark leading-tight">Faça seu Pedido</h3>
+                                <p class="text-xs text-acai/60">Selecione os sabores ao lado</p>
+                            </div>
+                        </div>
+                        <button onclick="clearCart()" id="clear-cart-btn" class="hidden text-xs font-semibold text-red-500 hover:underline cursor-pointer">
+                            Limpar
+                        </button>
+                    </div>
+
+                    <!-- Lista de Itens no Carrinho -->
+                    <div id="cart-items-desktop" class="space-y-3 max-h-64 overflow-y-auto pr-1">
+                        <!-- Preenchido via JS -->
+                    </div>
+
+                    <!-- Formulário de Entrega a Domicílio -->
+                    <div class="space-y-3 pt-2 border-t border-acai/10">
+                        <label for="delivery-address-desktop" class="flex items-center gap-2 text-xs font-heading font-bold uppercase tracking-wider text-acai-dark">
+                            <i class="fa-solid fa-motorcycle text-mango-dark text-base"></i>
+                            <span>Endereço para Entrega a Domicílio</span>
+                        </label>
+                        <div class="relative">
+                            <input type="text" id="delivery-address-desktop" oninput="syncAddress(this.value)"
+                                   placeholder="Ex: Rua Quinze, nº 120, Casa 2..."
+                                   class="w-full pl-4 pr-10 py-3 rounded-2xl bg-cream border border-acai/15 text-sm text-acai-dark placeholder:text-acai/40 focus:outline-none focus:border-acai focus:ring-2 focus:ring-acai/10 transition-all">
+                            <i class="fa-solid fa-location-dot absolute right-3.5 top-3.5 text-petrol/60"></i>
+                        </div>
+                        <p class="text-[11px] text-acai/60 flex items-center gap-1.5">
+                            <i class="fa-solid fa-store text-dino"></i>
+                            <span>Saindo de <strong class="font-handwriting text-base text-acai-dark">Rua Quinze</strong> • Entrega rápida</span>
+                        </p>
+                    </div>
+
+                    <!-- Formas de Pagamento: Cartão e Pix -->
+                    <div class="space-y-2.5 pt-2 border-t border-acai/10">
+                        <p class="text-xs font-heading font-bold uppercase tracking-wider text-acai-dark">
+                            Forma de Pagamento
+                        </p>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <button type="button" onclick="selectPayment('Pix')" data-pay="Pix"
+                                    class="pay-btn-desktop flex items-center justify-center gap-2 py-3 px-3 rounded-2xl border-2 border-dino bg-dino/10 text-dino font-bold text-xs transition-all cursor-pointer">
+                                <i class="fa-brands fa-pix text-base"></i>
+                                <span>Pix</span>
+                            </button>
+                            <button type="button" onclick="selectPayment('Cartão (Crédito/Débito)')" data-pay="Cartão (Crédito/Débito)"
+                                    class="pay-btn-desktop flex items-center justify-center gap-2 py-3 px-3 rounded-2xl border border-acai/15 bg-cream text-acai-dark font-bold text-xs hover:border-acai transition-all cursor-pointer">
+                                <i class="fa-regular fa-credit-card text-base"></i>
+                                <span>Cartão</span>
+                            </button>
+                        </div>
+
+                        <!-- Box Informativo Pix -->
+                        <div id="pix-info-desktop" class="bg-cream rounded-2xl p-3 border border-dino/20 flex items-center justify-between gap-2">
+                            <div class="overflow-hidden">
+                                <p class="text-[10px] font-bold uppercase text-dino">Chave Pix (Celular)</p>
+                                <p class="text-xs font-bold text-acai-dark truncate">21966632766</p>
+                            </div>
+                            <button type="button" onclick="copyPixKey()" class="px-3 py-1.5 rounded-xl bg-dino text-white text-[11px] font-bold hover:bg-dino-light transition-colors shrink-0 cursor-pointer">
+                                <i class="fa-regular fa-copy mr-1"></i>Copiar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Resumo de Valores e Botão Finalizar no WhatsApp -->
+                    <div class="pt-3 border-t border-acai/10 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-semibold text-acai/70">Total do Pedido</span>
+                            <span id="cart-total-desktop" class="font-heading font-black text-2xl text-acai-dark">R$ 0,00</span>
+                        </div>
+
+                        <button type="button" onclick="sendWhatsAppOrder()"
+                                class="w-full py-4 px-5 rounded-2xl bg-dino hover:bg-dino-light text-white font-heading font-extrabold text-sm flex items-center justify-center gap-2.5 shadow-lg shadow-dino/20 transition-all cursor-pointer">
+                            <i class="fa-brands fa-whatsapp text-xl"></i>
+                            <span>Finalizar Pedido no WhatsApp</span>
+                        </button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Rodapé Minimalista com Logomarca -->
+    <footer class="max-w-6xl mx-auto px-4 sm:px-6 mt-16 pt-8 border-t border-acai/10">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+            <div class="flex flex-col sm:flex-row items-center gap-3">
+                <img id="footer-brand-logo"
+                     src="1000215586.jpg"
+                     onerror="this.style.display='none'"
+                     alt="Rex Sorvetes"
+                     class="w-12 h-12 object-contain">
+                <div>
+                    <p class="font-heading font-black text-lg text-acai-dark">REX SORVETES <span class="text-petrol">• Açaí & Gelateria</span></p>
+                    <p class="text-xs text-acai/70 mt-0.5">
+                        Endereço: <span class="font-handwriting text-xl font-bold text-acai-dark">Rua Quinze</span> • Atendimento todos os dias das 09:30 às 18:00
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="https://wa.me/5521966632766" target="_blank" rel="noopener noreferrer"
+                   class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-dino text-white text-xs font-bold hover:bg-dino-light transition-colors shadow-sm">
+                    <i class="fa-brands fa-whatsapp text-base"></i>
+                    <span>Contratar WhatsApp: (21) 96663-2766</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botão Flutuante WhatsApp (Desktop) -->
+    <a href="https://wa.me/5521966632766?text=Ol%C3%A1%20Rex%20Sorvetes!%20Gostaria%20de%20fazer%20um%20pedido." target="_blank" rel="noopener noreferrer"
+       aria-label="Falar com Rex Sorvetes no WhatsApp"
+       class="hidden lg:flex fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-dino hover:bg-dino-light text-white items-center justify-center shadow-xl hover:scale-105 transition-all">
+        <i class="fa-brands fa-whatsapp text-3xl"></i>
+    </a>
+
+    <!-- Barra Flutuante Mobile para Acesso Rápido ao Pedido -->
+    <div id="mobile-bottom-bar" class="fixed bottom-4 left-4 right-4 z-30 lg:hidden">
+        <div class="bg-acai-dark text-white rounded-2xl p-3.5 shadow-2xl border border-white/10 flex items-center justify-between gap-3">
+            <button onclick="toggleCartDrawer()" class="flex items-center gap-3 text-left flex-1 cursor-pointer">
+                <div class="w-10 h-10 rounded-xl bg-mango text-acai-dark flex items-center justify-center font-heading font-black text-sm relative">
+                    <i class="fa-solid fa-bag-shopping text-base"></i>
+                    <span id="mobile-cart-badge" class="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-white text-acai-dark text-[10px] font-extrabold flex items-center justify-center shadow">0</span>
+                </div>
+                <div>
+                    <p class="text-[11px] text-white/70 font-medium">Faça seu Pedido</p>
+                    <p id="mobile-cart-total" class="font-heading font-extrabold text-base text-mango">R$ 0,00</p>
+                </div>
+            </button>
+
+            <button onclick="toggleCartDrawer()" class="px-4 py-2.5 rounded-xl bg-dino text-white font-heading font-bold text-xs flex items-center gap-1.5 cursor-pointer">
+                <span>Ver Sacola</span>
+                <i class="fa-solid fa-chevron-up"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Drawer Modal Mobile / Tablet para "Faça seu Pedido" -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 hidden">
+        <div onclick="toggleCartDrawer()" class="absolute inset-0 bg-acai-dark/60 backdrop-blur-xs"></div>
+        
+        <div class="absolute right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl flex flex-col justify-between overflow-y-auto">
+            <div class="p-6 space-y-5">
+                <div class="flex items-center justify-between border-b border-acai/10 pb-4">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-10 h-10 rounded-2xl bg-acai text-white flex items-center justify-center">
+                            <i class="fa-solid fa-basket-shopping"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-heading font-extrabold text-lg text-acai-dark">Faça seu Pedido</h3>
+                            <p class="text-xs text-acai/60">Rex Sorvetes • Delivery</p>
+                        </div>
+                    </div>
+                    <button onclick="toggleCartDrawer()" class="w-9 h-9 rounded-full bg-cream text-acai-dark flex items-center justify-center hover:bg-acai/10 cursor-pointer">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Itens do Carrinho Drawer -->
+                <div id="cart-items-drawer" class="space-y-3 max-h-60 overflow-y-auto pr-1">
+                    <!-- Preenchido via JS -->
+                </div>
+
+                <!-- Endereço de Entrega Drawer -->
+                <div class="space-y-2.5 pt-2 border-t border-acai/10">
+                    <label for="delivery-address-drawer" class="flex items-center gap-2 text-xs font-heading font-bold uppercase tracking-wider text-acai-dark">
+                        <i class="fa-solid fa-motorcycle text-mango-dark text-base"></i>
+                        <span>Endereço para Entrega a Domicílio</span>
+                    </label>
+                    <input type="text" id="delivery-address-drawer" oninput="syncAddress(this.value)"
+                           placeholder="Digite sua rua, número e bairro..."
+                           class="w-full px-4 py-3 rounded-2xl bg-cream border border-acai/15 text-sm text-acai-dark focus:outline-none focus:border-acai">
+                    <p class="text-[11px] text-acai/60">
+                        Saindo de <span class="font-handwriting text-base font-bold text-acai-dark">Rua Quinze</span>
+                    </p>
+                </div>
+
+                <!-- Formas de Pagamento Drawer -->
+                <div class="space-y-2.5 pt-2 border-t border-acai/10">
+                    <p class="text-xs font-heading font-bold uppercase tracking-wider text-acai-dark">Forma de Pagamento</p>
+                    <div class="grid grid-cols-2 gap-2.5">
+                        <button type="button" onclick="selectPayment('Pix')" data-pay="Pix"
+                                class="pay-btn-drawer flex items-center justify-center gap-2 py-3 px-3 rounded-2xl border-2 border-dino bg-dino/10 text-dino font-bold text-xs cursor-pointer">
+                            <i class="fa-brands fa-pix text-base"></i>
+                            <span>Pix</span>
+                        </button>
+                        <button type="button" onclick="selectPayment('Cartão (Crédito/Débito)')" data-pay="Cartão (Crédito/Débito)"
+                                class="pay-btn-drawer flex items-center justify-center gap-2 py-3 px-3 rounded-2xl border border-acai/15 bg-cream text-acai-dark font-bold text-xs cursor-pointer">
+                            <i class="fa-regular fa-credit-card text-base"></i>
+                            <span>Cartão</span>
+                        </button>
+                    </div>
+
+                    <div id="pix-info-drawer" class="bg-cream rounded-2xl p-3 border border-dino/20 flex items-center justify-between gap-2">
+                        <div>
+                            <p class="text-[10px] font-bold uppercase text-dino">Chave Pix (Celular)</p>
+                            <p class="text-xs font-bold text-acai-dark">21966632766</p>
+                        </div>
+                        <button type="button" onclick="copyPixKey()" class="px-3 py-1.5 rounded-xl bg-dino text-white text-[11px] font-bold cursor-pointer">
+                            Copiar Pix
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rodapé Drawer com Total e Botão WhatsApp -->
+            <div class="p-6 bg-cream border-t border-acai/10 space-y-3">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-semibold text-acai/70">Total a Pagar</span>
+                    <span id="cart-total-drawer" class="font-heading font-black text-2xl text-acai-dark">R$ 0,00</span>
+                </div>
+                <button type="button" onclick="sendWhatsAppOrder()"
+                        class="w-full py-4 px-5 rounded-2xl bg-dino hover:bg-dino-light text-white font-heading font-extrabold text-sm flex items-center justify-center gap-2.5 shadow-lg cursor-pointer">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                    <span>Enviar Pedido pelo WhatsApp</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script de Lógica do Aplicativo e Recorte Transparente da Logomarca -->
+    <script>
+        /**
+         * Remove o fundo xadrez externo da logomarca via Flood-Fill pelas bordas,
+         * preservando intactos os tons claros internos (avental, chapéu e letras)
+         * e gera automaticamente o PNG transparente + favicon da aba.
+         */
+        function processTransparentBrandLogo(imageSrc) {
+            const img = new Image();
+            img.crossOrigin = "Anonymous";
+            img.onload = function () {
+                try {
+                    const canvas = document.createElement('canvas');
+                    const w = img.naturalWidth;
+                    const h = img.naturalHeight;
+                    canvas.width = w;
+                    canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+
+                    const imgData = ctx.getImageData(0, 0, w, h);
+                    const data = imgData.data;
+                    const visited = new Uint8Array(w * h);
+
+                    // Detecta pixels neutros claros/cinza do padrão xadrez externo
+                    function isCheckerboardPixel(idx) {
+                        const r = data[idx * 4];
+                        const g = data[idx * 4 + 1];
+                        const b = data[idx * 4 + 2];
+                        const maxC = Math.max(r, g, b);
+                        const minC = Math.min(r, g, b);
+                        const sat = maxC - minC;
+                        // Fundo xadrez é acromático (baixa saturação) e claro (luminância > 175)
+                        return sat < 24 && minC > 170;
+                    }
+
+                    // Flood-fill a partir de todas as bordas externas da imagem
+                    const queue = new Int32Array(w * h);
+                    let head = 0;
+                    let tail = 0;
+
+                    for (let x = 0; x < w; x++) {
+                        const topIdx = x;
+                        const botIdx = (h - 1) * w + x;
+                        if (!visited[topIdx] && isCheckerboardPixel(topIdx)) {
+                            visited[topIdx] = 1;
+                            queue[tail++] = topIdx;
+                        }
+                        if (!visited[botIdx] && isCheckerboardPixel(botIdx)) {
+                            visited[botIdx] = 1;
+                            queue[tail++] = botIdx;
+                        }
+                    }
+
+                    for (let y = 0; y < h; y++) {
+                        const leftIdx = y * w;
+                        const rightIdx = y * w + (w - 1);
+                        if (!visited[leftIdx] && isCheckerboardPixel(leftIdx)) {
+                            visited[leftIdx] = 1;
+                            queue[tail++] = leftIdx;
+                        }
+                        if (!visited[rightIdx] && isCheckerboardPixel(rightIdx)) {
+                            visited[rightIdx] = 1;
+                            queue[tail++] = rightIdx;
+                        }
+                    }
+
+                    while (head < tail) {
+                        const curr = queue[head++];
+                        const cx = curr % w;
+                        const cy = (curr - cx) / w;
+
+                        // Torna o pixel transparente
+                        data[curr * 4 + 3] = 0;
+
+                        // Verifica 4 vizinhos
+                        if (cx > 0) {
+                            const n = curr - 1;
+                            if (!visited[n] && isCheckerboardPixel(n)) {
+                                visited[n] = 1;
+                                queue[tail++] = n;
+                            }
+                        }
+                        if (cx < w - 1) {
+                            const n = curr + 1;
+                            if (!visited[n] && isCheckerboardPixel(n)) {
+                                visited[n] = 1;
+                                queue[tail++] = n;
+                            }
+                        }
+                        if (cy > 0) {
+                            const n = curr - w;
+                            if (!visited[n] && isCheckerboardPixel(n)) {
+                                visited[n] = 1;
+                                queue[tail++] = n;
+                            }
+                        }
+                        if (cy < h - 1) {
+                            const n = curr + w;
+                            if (!visited[n] && isCheckerboardPixel(n)) {
+                                visited[n] = 1;
+                                queue[tail++] = n;
+                            }
+                        }
+                    }
+
+                    // Suavização de borda (anti-aliasing) nos pixels adjacentes ao recorte
+                    for (let y = 1; y < h - 1; y++) {
+                        for (let x = 1; x < w - 1; x++) {
+                            const idx = y * w + x;
+                            if (data[idx * 4 + 3] > 0 && isCheckerboardPixel(idx)) {
+                                const hasTransparentNeighbor =
+                                    data[(idx - 1) * 4 + 3] === 0 ||
+                                    data[(idx + 1) * 4 + 3] === 0 ||
+                                    data[(idx - w) * 4 + 3] === 0 ||
+                                    data[(idx + w) * 4 + 3] === 0;
+                                if (hasTransparentNeighbor) {
+                                    data[idx * 4 + 3] = 60;
+                                }
+                            }
+                        }
+                    }
+
+                    ctx.putImageData(imgData, 0, 0);
+
+                    // Recorta a área útil da logomarca (bounding box) para enquadramento perfeito
+                    let minX = w, minY = h, maxX = 0, maxY = 0;
+                    for (let y = 0; y < h; y++) {
+                        for (let x = 0; x < w; x++) {
+                            if (data[(y * w + x) * 4 + 3] > 20) {
+                                if (x < minX) minX = x;
+                                if (x > maxX) maxX = x;
+                                if (y < minY) minY = y;
+                                if (y > maxY) maxY = y;
+                            }
+                        }
+                    }
+
+                    if (maxX > minX && maxY > minY) {
+                        const cropW = maxX - minX + 1;
+                        const cropH = maxY - minY + 1;
+                        const croppedCanvas = document.createElement('canvas');
+                        croppedCanvas.width = cropW;
+                        croppedCanvas.height = cropH;
+                        const croppedCtx = croppedCanvas.getContext('2d');
+                        croppedCtx.drawImage(canvas, minX, minY, cropW, cropH, 0, 0, cropW, cropH);
+
+                        const transparentPngUrl = croppedCanvas.toDataURL('image/png');
+
+                        // Aplica a logomarca PNG transparente no topo, hero e rodapé
+                        const navLogo = document.getElementById('nav-brand-logo');
+                        const heroLogo = document.getElementById('hero-brand-logo');
+                        const footerLogo = document.getElementById('footer-brand-logo');
+                        if (navLogo) navLogo.src = transparentPngUrl;
+                        if (heroLogo) heroLogo.src = transparentPngUrl;
+                        if (footerLogo) footerLogo.src = transparentPngUrl;
+
+                        // Gera Favicon quadrado (64x64) como identificação da aba do navegador
+                        const favCanvas = document.createElement('canvas');
+                        favCanvas.width = 64;
+                        favCanvas.height = 64;
+                        const favCtx = favCanvas.getContext('2d');
+                        const scale = Math.min(60 / cropW, 60 / cropH);
+                        const drawW = cropW * scale;
+                        const drawH = cropH * scale;
+                        favCtx.drawImage(croppedCanvas, (64 - drawW) / 2, (64 - drawH) / 2, drawW, drawH);
+
+                        const faviconLink = document.getElementById('dynamic-favicon');
+                        if (faviconLink) {
+                            faviconLink.href = favCanvas.toDataURL('image/png');
+                        }
+                    }
+                } catch (err) {
+                    console.warn("Fallback para imagem original:", err);
+                }
+            };
+            img.src = imageSrc;
+        }
+
+        // Catálogo dos 10 sabores solicitados com fotos ultrarrealistas e valores exatos
+        const menuItems = [
+            {
+                id: 1,
+                name: "Casquinha de Açaí Tradicional",
+                category: "acai",
+                price: 3.00,
+                badge: "Oferta Especial • R$ 3,00",
+                highlight: true,
+                description: "Casquinha crocante recheada com nosso autêntico creme de açaí gelado e cremoso.",
+                image: "https://images.unsplash.com/photo-1570197788417-0e82375c9371?auto=format&fit=crop&w=700&q=85"
+            },
+            {
+                id: 2,
+                name: "Açaí com Chocolate",
+                category: "acai",
+                price: 10.00,
+                badge: "Mais Vendido",
+                highlight: false,
+                description: "Açaí puro batido com calda intensa e raspas de chocolate selecionado.",
+                image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=700&q=85"
+            },
+            {
+                id: 3,
+                name: "Açaí com Banana e Granola",
+                category: "acai",
+                price: 10.00,
+                badge: "Clássico",
+                highlight: false,
+                description: "Combinação energética de açaí cremoso com rodelas de banana fresca e granola crocante.",
+                image: "https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?auto=format&fit=crop&w=700&q=85"
+            },
+            {
+                id: 4,
+                name: "Açaí com Leite Ninho",
+                category: "acai",
+                price: 10.00,
+                badge: "Favorito",
+                highlight: false,
+                description: "Camadas generosas de açaí artesanal intercaladas com creme suave de Leite Ninho.",
+                image: "https://images.unsplash.com/photo-1488900128323-21503983a07e?auto=format&fit=crop&w=700&q=85"
+            },
+            {
+                id: 5,
+                name: "Açaí com Morango Fresco",
+                category: "acai",
+                price: 10.00,
+                badge: "Refrescante",
+                highlight: false,
+                description: "O contraste perfeito entre o açaí gelado e morangos frescos selecionados.",
+                image: "https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=700&q=85"
+            },
+            {
+                id: 6,
+                name: "Sorvete de Baunilha Artesanal",
+                category: "sorvetes",
+                price: 8.00,
+                badge: "Artesanal",
+                highlight: false,
+                description: "Gelato cremoso preparado com favas naturais de baunilha e textura leve.",
+                image: "https://images.unsplash.com/photo-1570197571499-166b36435e9f?auto=format&fit=crop&w=700&q=85"
+            },
+            {
+                id: 7,
+                name: "Sorvete de Banana Caramelizada",
+                category: "sorvetes",
+                price: 8.00,
+                badge: "Especial",
+                highlight: false,
+                description: "Gelato artesanal de banana madura com toque suave de caramelo dourado.",
+                image: "https://images.unsplash.com/photo-1623595119708-26b1f7300075?auto=format&fit=crop&w=700&q=85"
+            },
+            {
+                id: 8,
+                name: "Sorvete de Abacate Cremoso",
+                category: "sorvetes",
+                price: 8.00,
+                badge: "Natural",
+                highlight: false,
+                description: "Feito com abacates frescos selecionados, extremamente cremoso e refrescante.",
+                image: "https://images.unsplash.com/photo-1505394033641-40c6ad1178d7?auto=format&fit=crop&w=700&q=85"
+            },
+            {
+                id: 9,
+                name: "Sorvete de Leite Condensado",
+                category: "sorvetes",
+                price: 8.00,
+                badge: "Doce na Medida",
+                highlight: false,
+                description: "Sabor nostálgico e aveludado de leite condensado cremoso.",
+                image: "https://images.unsplash.com/photo-1501443762994-82bd5dace89a?auto=format&fit=crop&w=700&q=85"
+            },
+            {
+                id: 10,
+                name: "Sorvete de Chocolate Branco",
+                category: "sorvetes",
+                price: 10.00,
+                badge: "Premium",
+                highlight: false,
+                description: "Gelato intenso de chocolate branco nobre com pedacinhos crocantes.",
+                image: "https://images.unsplash.com/photo-1516559828984-fb3b99548b21?auto=format&fit=crop&w=700&q=85"
+            }
+        ];
+
+        // Estado global do carrinho e pedido
+        let cart = [];
+        let selectedPayment = 'Pix';
+        let deliveryAddress = '';
+        let currentFilter = 'todos';
+
+        function formatCurrency(value) {
+            return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        // Verifica horário de atendimento (Todos os dias: 09:30 às 18:00)
+        function updateStoreStatus() {
+            const now = new Date();
+            const currentMinutes = now.getHours() * 60 + now.getMinutes();
+            const openMinutes = 9 * 60 + 30;  // 09:30
+            const closeMinutes = 18 * 60;      // 18:00
+
+            const badge = document.getElementById('store-status-badge');
+            const dot = document.getElementById('store-status-dot');
+            const text = document.getElementById('store-status-text');
+
+            if (currentMinutes >= openMinutes && currentMinutes < closeMinutes) {
+                badge.className = "inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-dino/15 text-dino";
+                dot.className = "w-2 h-2 rounded-full bg-dino animate-ping";
+                text.textContent = "Aberto agora • Fecha às 18:00";
+            } else {
+                badge.className = "inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold bg-mango/20 text-mango-dark";
+                dot.className = "w-2 h-2 rounded-full bg-mango-dark";
+                text.textContent = "Fechado agora • Abre às 09:30 (Agende pelo WhatsApp)";
+            }
+        }
+
+        function renderMenu() {
+            const grid = document.getElementById('menu-grid');
+            const filtered = currentFilter === 'todos' 
+                ? menuItems 
+                : menuItems.filter(item => item.category === currentFilter);
+
+            grid.innerHTML = filtered.map(item => `
+                <article class="bg-white rounded-3xl overflow-hidden shadow-sm border ${item.highlight ? 'border-mango ring-2 ring-mango/20' : 'border-acai/10'} flex flex-col justify-between group hover:shadow-md transition-all">
+                    <div>
+                        <div class="relative h-48 overflow-hidden bg-cream">
+                            <img src="${item.image}" 
+                                 onerror="this.src='https://placehold.co/600x400/3E1D4B/FFFFFF?text=${encodeURIComponent(item.name)}'"
+                                 alt="${item.name}" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 left-3 px-3 py-1 rounded-full text-[11px] font-heading font-bold ${item.highlight ? 'bg-mango text-acai-dark shadow' : 'bg-acai-dark/85 text-white backdrop-blur-xs'}">
+                                ${item.badge}
+                            </span>
+                        </div>
+                        <div class="p-5 pb-3">
+                            <h3 class="font-heading font-extrabold text-base sm:text-lg text-acai-dark leading-snug">${item.name}</h3>
+                            <p class="text-xs text-acai-dark/70 mt-1.5 leading-relaxed">${item.description}</p>
+                        </div>
+                    </div>
+
+                    <div class="px-5 pb-5 pt-2 flex items-center justify-between gap-3">
+                        <div>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-acai/50 block">Valor</span>
+                            <span class="font-heading font-black text-xl ${item.highlight ? 'text-mango-dark' : 'text-acai-dark'}">
+                                ${formatCurrency(item.price)}
+                            </span>
+                        </div>
+
+                        <button onclick="addToCart(${item.id})" 
+                                class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl ${item.highlight ? 'bg-mango text-acai-dark hover:bg-mango-dark hover:text-white' : 'bg-acai-dark text-white hover:bg-acai'} font-heading font-bold text-xs transition-all shadow-xs cursor-pointer">
+                            <i class="fa-solid fa-plus"></i>
+                            <span>Adicionar</span>
+                        </button>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        function filterMenu(category) {
+            currentFilter = category;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.dataset.filter === category) {
+                    btn.className = "filter-btn active px-4 py-2 rounded-full text-xs font-bold bg-acai-dark text-white transition-all cursor-pointer whitespace-nowrap";
+                } else {
+                    btn.className = "filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white text-acai-dark border border-acai/15 hover:border-acai transition-all cursor-pointer whitespace-nowrap";
+                }
+            });
+            renderMenu();
+        }
+
+        function addToCart(id) {
+            const product = menuItems.find(p => p.id === id);
+            if (!product) return;
+
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+
+            updateCartUI();
+            showToast(`"${product.name}" adicionado ao pedido!`);
+        }
+
+        function updateQty(id, delta) {
+            const index = cart.findIndex(item => item.id === id);
+            if (index === -1) return;
+
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCartUI();
+        }
+
+        function clearCart() {
+            cart = [];
+            updateCartUI();
+            showToast("Sacola esvaziada.");
+        }
+
+        function syncAddress(val) {
+            deliveryAddress = val;
+            const dInput = document.getElementById('delivery-address-desktop');
+            const mInput = document.getElementById('delivery-address-drawer');
+            if (dInput && dInput.value !== val) dInput.value = val;
+            if (mInput && mInput.value !== val) mInput.value = val;
+        }
+
+        function selectPayment(method) {
+            selectedPayment = method;
+            const isPix = method === 'Pix';
+
+            document.querySelectorAll('.pay-btn-desktop, .pay-btn-drawer').forEach(btn => {
+                if (btn.dataset.pay === method) {
+                    btn.className = btn.className.includes('desktop')
+                        ? "pay-btn-desktop flex items-center justify-center gap-2 py-3 px-3 rounded-2xl border-2 border-dino bg-dino/10 text-dino font-bold text-xs transition-all cursor-pointer"
+                        : "pay-btn-drawer flex items-center justify-center gap-2 py-3 px-3 rounded-2xl border-2 border-dino bg-dino/10 text-dino font-bold text-xs cursor-pointer";
+                } else {
+                    btn.className = btn.className.includes('desktop')
+                        ? "pay-btn-desktop flex items-center justify-center gap-2 py-3 px-3 rounded-2xl border border-acai/15 bg-cream text-acai-dark font-bold text-xs hover:border-acai transition-all cursor-pointer"
+                        : "pay-btn-drawer flex items-center justify-center gap-2 py-3 px-3 rounded-2xl border border-acai/15 bg-cream text-acai-dark font-bold text-xs cursor-pointer";
+                }
+            });
+
+            document.getElementById('pix-info-desktop').style.display = isPix ? 'flex' : 'none';
+            document.getElementById('pix-info-drawer').style.display = isPix ? 'flex' : 'none';
+        }
+
+        function copyPixKey() {
+            const tempInput = document.createElement('input');
+            tempInput.value = '21966632766';
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast("Chave Pix (21966632766) copiada!");
+        }
+
+        function updateCartUI() {
+            const totalQty = cart.reduce((acc, item) => acc + item.qty, 0);
+            const totalPrice = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+
+            document.getElementById('header-cart-count').textContent = totalQty;
+            document.getElementById('mobile-cart-badge').textContent = totalQty;
+            document.getElementById('mobile-cart-total').textContent = formatCurrency(totalPrice);
+            document.getElementById('cart-total-desktop').textContent = formatCurrency(totalPrice);
+            document.getElementById('cart-total-drawer').textContent = formatCurrency(totalPrice);
+
+            const clearBtn = document.getElementById('clear-cart-btn');
+            if (clearBtn) {
+                clearBtn.classList.toggle('hidden', cart.length === 0);
+            }
+
+            const emptyHTML = `
+                <div class="text-center py-8 px-4 bg-cream/60 rounded-2xl border border-dashed border-acai/20">
+                    <i class="fa-solid fa-ice-cream text-3xl text-acai/30 mb-2"></i>
+                    <p class="text-xs font-bold text-acai-dark">Sua sacola está vazia</p>
+                    <p class="text-[11px] text-acai/60 mt-0.5">Adicione sabores deliciosos do cardápio!</p>
+                </div>
+            `;
+
+            const itemsHTML = cart.length === 0 ? emptyHTML : cart.map(item => `
+                <div class="flex items-center justify-between gap-2.5 bg-cream p-3 rounded-2xl border border-acai/10">
+                    <div class="min-w-0 flex-1">
+                        <p class="text-xs font-bold text-acai-dark truncate">${item.name}</p>
+                        <p class="text-[11px] font-semibold text-dino">${formatCurrency(item.price * item.qty)}</p>
+                    </div>
+                    <div class="flex items-center gap-1.5 bg-white px-2 py-1 rounded-xl border border-acai/10">
+                        <button onclick="updateQty(${item.id}, -1)" class="w-6 h-6 rounded-lg text-acai-dark hover:bg-cream flex items-center justify-center text-xs font-bold cursor-pointer">-</button>
+                        <span class="text-xs font-extrabold w-4 text-center">${item.qty}</span>
+                        <button onclick="updateQty(${item.id}, 1)" class="w-6 h-6 rounded-lg text-acai-dark hover:bg-cream flex items-center justify-center text-xs font-bold cursor-pointer">+</button>
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('cart-items-desktop').innerHTML = itemsHTML;
+            document.getElementById('cart-items-drawer').innerHTML = itemsHTML;
+        }
+
+        function toggleCartDrawer() {
+            const drawer = document.getElementById('cart-drawer');
+            drawer.classList.toggle('hidden');
+        }
+
+        function showToast(message, isError = false) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `px-4 py-3 rounded-2xl shadow-lg text-xs font-bold flex items-center gap-2.5 transition-all transform translate-y-0 ${
+                isError ? 'bg-red-600 text-white' : 'bg-acai-dark text-white border border-mango/40'
+            }`;
+            toast.innerHTML = `
+                <i class="fa-solid ${isError ? 'fa-circle-exclamation text-white' : 'fa-circle-check text-mango'}"></i>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 2800);
+        }
+
+        function sendWhatsAppOrder() {
+            if (cart.length === 0) {
+                showToast("Adicione pelo menos 1 sabor antes de finalizar!", true);
+                return;
+            }
+
+            if (!deliveryAddress.trim()) {
+                showToast("Por favor, digite o endereço para entrega a domicílio!", true);
+                const desktopInput = document.getElementById('delivery-address-desktop');
+                if (desktopInput) desktopInput.focus();
+                return;
+            }
+
+            const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            const itemsList = cart.map(item => `• ${item.qty}x ${item.name} (${formatCurrency(item.price * item.qty)})`).join('\n');
+
+            const message = 
+`🦖 *NOVO PEDIDO - REX SORVETES* 🍨
+*(Açaí & Gelateria - Rua Quinze)*
+
+*Itens Escolhidos:*
+${itemsList}
+
+*Valor Total:* ${formatCurrency(total)}
+🛵 *Endereço de Entrega:* ${deliveryAddress.trim()}
+💳 *Forma de Pagamento:* ${selectedPayment}
+
+Aguardo a confirmação do meu pedido!`;
+
+            const phone = "5521966632766";
+            const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            processTransparentBrandLogo('1000215586.jpg');
+            updateStoreStatus();
+            renderMenu();
+            updateCartUI();
+            setInterval(updateStoreStatus, 60000);
+        });
+    </script>
+</body>
+</html>
+```
